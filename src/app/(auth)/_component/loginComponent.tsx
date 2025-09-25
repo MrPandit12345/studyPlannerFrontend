@@ -4,53 +4,49 @@ import React from "react";
 import {
   EyeInvisibleOutlined,
   EyeTwoTone,
-  UserOutlined,
   MailOutlined,
   LockOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
-import { Card, Form, Input, Button, Typography } from "antd";
+import { Card, Form, Input, Button, Typography, Checkbox } from "antd";
 import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
-interface RegisterData {
-  name: string;
+interface LoginData {
   email: string;
   password: string;
-  confirmPassword: string;
+  remember?: boolean;
 }
 
-interface RegisterProps {
-  onSubmit: (data: RegisterData) => void;
+interface LoginProps {
+  onSubmit: (data: LoginData) => void;
   isLoading?: boolean;
 }
 
-export const RegisterComponent: React.FC<RegisterProps> = ({
+export const LoginComponent: React.FC<LoginProps> = ({
   onSubmit,
   isLoading = false,
 }) => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values: RegisterData) => {
+  const handleFinish = (values: LoginData) => {
     onSubmit(values);
   };
 
   const router = useRouter();
 
   return (
-    <div className="max-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl shadow-xl rounded-2xl">
+    <div className="max-h-screen flex items-center justify-center ">
+      <Card className="w-full max-w-3xl shadow-xl rounded-2xl ">
         <div className="text-center mb-6">
           <Title
             level={3}
             className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent font-bold"
           >
-            Create Account
+            Welcome Back
           </Title>
-          <Text type="secondary">
-            Sign up to get started with Study Planner
-          </Text>
+          <Text type="secondary">Sign in to continue your Study Planner</Text>
         </div>
 
         <Form
@@ -59,17 +55,6 @@ export const RegisterComponent: React.FC<RegisterProps> = ({
           onFinish={handleFinish}
           autoComplete="off"
         >
-          <Form.Item
-            name="name"
-            rules={[{ required: true, message: "Please enter your full name" }]}
-          >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Full Name"
-              size="large"
-            />
-          </Form.Item>
-
           <Form.Item
             name="email"
             rules={[
@@ -94,30 +79,17 @@ export const RegisterComponent: React.FC<RegisterProps> = ({
             />
           </Form.Item>
 
-          <Form.Item
-            name="confirmPassword"
-            dependencies={["password"]}
-            rules={[
-              { required: true, message: "Please confirm your password" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Passwords do not match"));
-                },
-              }),
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Confirm Password"
-              size="large"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-          </Form.Item>
+          <div className="flex items-center justify-between mb-4">
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+            <a
+              href="#"
+              className="text-purple-400 hover:text-purple-300 text-sm"
+            >
+              Forgot password?
+            </a>
+          </div>
 
           <Form.Item>
             <Button
@@ -130,22 +102,24 @@ export const RegisterComponent: React.FC<RegisterProps> = ({
             >
               {!isLoading && (
                 <>
-                  Create Account <ArrowRightOutlined />
+                  Sign In <ArrowRightOutlined />
                 </>
               )}
-              {isLoading && "Creating Account..."}
+              {isLoading && "Signing In..."}
             </Button>
           </Form.Item>
         </Form>
 
         <div className="mt-6 text-center">
           <Text type="secondary" className="text-sm">
-            Already have an account?{" "}
+            Don’t have an account?{" "}
             <button
               className="text-purple-400 hover:text-purple-300 font-medium"
-              onClick={() => {router.push("/login")}}
+              onClick={() => {
+                router.push("/register");
+              }}
             >
-              Sign in
+              Create one
             </button>
           </Text>
         </div>

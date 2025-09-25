@@ -1,15 +1,11 @@
 "use client";
 
-import { SignIn } from "@clerk/nextjs";
+import { LoginComponent } from "../_component/loginComponent";
 
 export default function LoginPage() {
   return (
     <div className="flex items-center justify-center">
-      <SignIn
-        path="/login"
-        routing="path"
-        signUpUrl="/register"
-      />
+      <LoginComponent onSubmit={()=>{console.log("logined")}}/>
     </div>
   );
 }

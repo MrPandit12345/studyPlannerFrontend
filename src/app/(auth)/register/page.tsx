@@ -1,15 +1,11 @@
 "use client";
 
-import { SignUp } from "@clerk/nextjs";
+import { RegisterComponent } from "../_component/registerComponent";
 
 export default function RegisterPage() {
   return (
     <div className="flex items-center justify-center">
-      <SignUp
-        path="/register"
-        routing="path"
-        signInUrl="/login"
-      />
+      <RegisterComponent onSubmit={()=>{console.warn("signed in")}}/>
     </div>
   );
 }
