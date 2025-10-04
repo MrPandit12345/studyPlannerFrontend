@@ -5,7 +5,7 @@ import { RegisterComponent } from "../_component/registerComponent";
 export default function RegisterPage() {
   return (
     <div className="flex items-center justify-center">
-      <RegisterComponent onSubmit={()=>{console.warn("signed in")}}/>
+      <RegisterComponent onSubmit={(data)=>{console.warn("signed in",data)}}/>
     </div>
   );
 }
